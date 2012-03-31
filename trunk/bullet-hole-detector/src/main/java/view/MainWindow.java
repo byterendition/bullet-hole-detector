@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -35,10 +37,12 @@ public class MainWindow extends JFrame {
 		JMenu menu = new JMenu("File");
 		
 		JMenuItem menuItemLoadCards = new JMenuItem("Load cards");
+		menuItemLoadCards.setName("menuItemLoadCards");
 		menuItemLoadCards.addActionListener(menuListener);
 		menu.add(menuItemLoadCards);
 		
 		JMenuItem menuItemExit = new JMenuItem("Exit");
+		menuItemExit.setName("menuItemExit");
 		menuItemExit.addActionListener(menuListener);
 		menu.add(menuItemExit);
 		
@@ -52,6 +56,11 @@ public class MainWindow extends JFrame {
 		
 		// Show the window.
 		pack();
+		
+		Point centerOfScreen = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		centerOfScreen.translate(-getSize().width / 2, -getSize().height / 2);
+		setLocation(centerOfScreen);
+		
 		setVisible(true);
 	}
 }
