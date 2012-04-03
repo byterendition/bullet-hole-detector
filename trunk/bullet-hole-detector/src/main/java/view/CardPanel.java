@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import model.Card;
 import model.CardContainer;
+import controller.ViewUtil;
 
 public class CardPanel extends JPanel {
 	private static final long	serialVersionUID	= 1L;
@@ -21,6 +22,7 @@ public class CardPanel extends JPanel {
 		currentCardIndex = -1;
 		
 		setLayout(new BorderLayout());
+		setBorder(ViewUtil.getSpacedEtchedBorder(4, 8));
 		
 		cardImagePanel = new CardImagePanel(this);
 		this.add(cardImagePanel, BorderLayout.CENTER);

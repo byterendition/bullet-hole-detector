@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -52,6 +53,9 @@ public class CardImagePanel extends JPanel {
 		int imageY = (getHeight() - imageHeight) / 2;
 		
 		g.drawImage(image, imageX, imageY, imageWidth, imageHeight, null);
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(imageX, imageY, imageWidth - 1, imageHeight - 1);
 	}
 	
 }

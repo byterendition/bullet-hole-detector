@@ -3,6 +3,7 @@ package view;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ public class CardNavigatorPanel extends JPanel {
 		this.cardPanel = cardPanel;
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 		
 		add(Box.createHorizontalGlue());
 		
