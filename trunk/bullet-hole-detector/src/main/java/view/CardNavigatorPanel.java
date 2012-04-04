@@ -43,6 +43,13 @@ public class CardNavigatorPanel extends JPanel {
 		nextButton.setName("nextButton");
 		add(nextButton);
 		
+		add(Box.createRigidArea(new Dimension(8, 0)));
+		
+		JButton removeButton = new JButton("X");
+		removeButton.addActionListener(new CardNavigatorListener(cardPanel));
+		removeButton.setName("removeButton");
+		add(removeButton);
+		
 		add(Box.createHorizontalGlue());
 	}
 	

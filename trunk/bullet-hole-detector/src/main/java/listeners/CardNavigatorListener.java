@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,19 @@ public class CardNavigatorListener implements ActionListener {
 				}
 				cardPanel.repaint();
 				log.debug("next card");
+			}
+			
+			if (button.getName() == "removeButton") {
+				if (numCards > 0) {
+					int response = JOptionPane.showOptionDialog(cardPanel, "Are you sure you want to remove this card?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[] { "Yes", "No" }, "No");
+					log.debug("option: {}", response);
+					
+					if (response == 0) {
+						cardPanel.cardContainer.removeCard(cardPanel.getCurrentCard());
+						cardPanel.repaint();
+						log.debug("remove card");
+					}
+				}
 			}
 		}
 	}
