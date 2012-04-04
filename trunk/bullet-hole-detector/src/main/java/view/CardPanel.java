@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
@@ -25,6 +26,7 @@ public class CardPanel extends JPanel {
 		setBorder(ViewUtil.getSpacedEtchedBorder(4, 8));
 		
 		cardImagePanel = new CardImagePanel(this);
+		cardImagePanel.setPreferredSize(new Dimension(320, 240));
 		this.add(cardImagePanel, BorderLayout.CENTER);
 		
 		cardNavigatorPanel = new CardNavigatorPanel(this);

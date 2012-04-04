@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import listeners.CardContainerListener;
+import listeners.CardImagePanelListener;
 import listeners.CardListener;
 import listeners.MenuListener;
 import model.Card;
@@ -15,6 +16,7 @@ import model.CardContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import view.CardImagePanel;
 import view.MainWindow;
 
 public class BulletHoleDetector {
@@ -25,11 +27,19 @@ public class BulletHoleDetector {
 	
 	private CardListener			cardListener;
 	private CardContainerListener	cardContainerListener;
+	private CardImagePanelListener	cardImagePanelListener;
 	
 	public BulletHoleDetector() {
 		cardContainer = new CardContainer();
 		
 		mainWindow = new MainWindow(cardContainer, new MenuListener(this));
+		
+		CardImagePanel cardImagePanel = mainWindow.cardPanel.cardImagePanel;
+		cardImagePanelListener = new CardImagePanelListener(cardImagePanel, mainWindow.cardZoomPanel.cardZoomImagePanel);
+		cardImagePanel.addMouseListener(cardImagePanelListener);
+		cardImagePanel.addMouseMotionListener(cardImagePanelListener);
+		cardImagePanel.addMouseWheelListener(cardImagePanelListener);
+		cardImagePanel.addComponentListener(cardImagePanelListener);
 		
 		cardListener = new CardListener(mainWindow.cardPanel);
 		cardContainerListener = new CardContainerListener(mainWindow.cardPanel);

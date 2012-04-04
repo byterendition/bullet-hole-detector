@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.io.File;
@@ -25,6 +24,7 @@ public class MainWindow extends JFrame {
 	private static final Logger	log					= LoggerFactory.getLogger(MainWindow.class);
 	
 	public CardPanel			cardPanel;
+	public CardZoomPanel		cardZoomPanel;
 	
 	public MainWindow(CardContainer cardContainer, MenuListener menuListener) {
 		// Create and set up the window.
@@ -39,7 +39,8 @@ public class MainWindow extends JFrame {
 		// Start creating and adding components.
 		// Card viewer
 		cardPanel = new CardPanel(cardContainer);
-		cardPanel.setPreferredSize(new Dimension(320, 240));
+		
+		cardZoomPanel = new CardZoomPanel(cardPanel);
 		
 		// Menu
 		JMenuBar menuBar = new JMenuBar();
@@ -65,6 +66,7 @@ public class MainWindow extends JFrame {
 		
 		// Adding components to JPanel, which is then added to the contentPane
 		frameContents.add(BorderLayout.CENTER, cardPanel);
+		frameContents.add(BorderLayout.EAST, cardZoomPanel);
 		contentPane.add(frameContents);
 		contentPane.validate();
 		
