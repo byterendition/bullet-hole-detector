@@ -33,6 +33,11 @@ public class MenuListener implements ActionListener {
 		if (e.getSource() instanceof JMenuItem) {
 			JMenuItem source = (JMenuItem) e.getSource();
 			
+			if (source.getName() == "menuItemNew") {
+				log.info("New");
+				bulletHoleDetector.cardContainer.clear();
+			}
+			
 			if (source.getName() == "menuItemLoadCards") {
 				log.info("Load cards");
 				

@@ -18,12 +18,13 @@ import org.slf4j.LoggerFactory;
 import view.MainWindow;
 
 public class BulletHoleDetector {
-	private static final Logger	log	= LoggerFactory.getLogger(BulletHoleDetector.class);
+	private static final Logger		log	= LoggerFactory.getLogger(BulletHoleDetector.class);
 	
-	CardContainer				cardContainer;
-	MainWindow					mainWindow;
-	CardListener				cardListener;
-	CardContainerListener		cardContainerListener;
+	public CardContainer			cardContainer;
+	public MainWindow				mainWindow;
+	
+	private CardListener			cardListener;
+	private CardContainerListener	cardContainerListener;
 	
 	public BulletHoleDetector() {
 		cardContainer = new CardContainer();

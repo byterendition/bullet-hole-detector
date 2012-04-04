@@ -23,6 +23,12 @@ public class CardContainer extends Observable {
 		notifyObservers();
 	}
 	
+	public void clear() {
+		cardList.clear();
+		setChanged();
+		notifyObservers();
+	}
+	
 	public boolean isEmpty() {
 		return cardList.isEmpty();
 	}

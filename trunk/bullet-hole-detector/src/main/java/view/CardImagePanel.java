@@ -8,8 +8,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import controller.ImageUtil;
-
 public class CardImagePanel extends JPanel {
 	private static final long	serialVersionUID	= 1L;
 	
@@ -35,8 +33,6 @@ public class CardImagePanel extends JPanel {
 		
 		if (cardPanel.getCurrentCard() != null) {
 			drawImage(cardPanel.getCurrentCard().getImage(), offScreen);
-		} else {
-			drawImage(ImageUtil.getNoImage(), offScreen);
 		}
 		
 		g.drawImage(offScreenImage, 0, 0, this);
@@ -57,5 +53,4 @@ public class CardImagePanel extends JPanel {
 		g.setColor(Color.BLACK);
 		g.drawRect(imageX, imageY, imageWidth - 1, imageHeight - 1);
 	}
-	
 }

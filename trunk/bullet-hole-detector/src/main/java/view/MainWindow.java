@@ -45,6 +45,11 @@ public class MainWindow extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		
+		JMenuItem menuItemNew = new JMenuItem("New");
+		menuItemNew.setName("menuItemNew");
+		menuItemNew.addActionListener(menuListener);
+		menu.add(menuItemNew);
+		
 		JMenuItem menuItemLoadCards = new JMenuItem("Load cards");
 		menuItemLoadCards.setName("menuItemLoadCards");
 		menuItemLoadCards.addActionListener(menuListener);

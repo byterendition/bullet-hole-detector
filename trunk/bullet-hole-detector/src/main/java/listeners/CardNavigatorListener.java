@@ -50,7 +50,6 @@ public class CardNavigatorListener implements ActionListener {
 			if (button.getName() == "removeButton") {
 				if (numCards > 0) {
 					int response = JOptionPane.showOptionDialog(cardPanel, "Are you sure you want to remove this card?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[] { "Yes", "No" }, "No");
-					log.debug("option: {}", response);
 					
 					if (response == 0) {
 						cardPanel.cardContainer.removeCard(cardPanel.getCurrentCard());
