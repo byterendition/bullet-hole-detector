@@ -13,13 +13,10 @@ public class CardListener implements Observer {
 		this.cardPanel = cardPanel;
 	}
 	
+	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof Card) {
 			Card card = (Card) o;
-			
-			if (cardPanel.getCurrentCard().equals(card)) {
-				cardPanel.repaint();
-			}
 		}
 	}
 }

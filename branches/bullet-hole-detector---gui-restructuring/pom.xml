@@ -32,7 +32,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>controller.JavaPong</mainClass>
+              <mainClass>controller.BulletHoleDetector</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

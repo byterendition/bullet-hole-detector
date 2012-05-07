@@ -1,33 +1,32 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import listeners.CardNavigatorListener;
+import listeners.actions.navigator.NextCardAction;
+import listeners.actions.navigator.PreviousCardAction;
+import listeners.actions.navigator.RemoveCardAction;
+import model.Model;
 
+@SuppressWarnings("serial")
 public class CardNavigatorPanel extends JPanel {
-	private static final long	serialVersionUID	= 1L;
+	public JLabel	cardIndexLabel;
+	Model			model;
 	
-	private JLabel				cardIndexLabel;
-	private CardPanel			cardPanel;
-	
-	public CardNavigatorPanel(CardPanel cardPanel) {
-		this.cardPanel = cardPanel;
+	public CardNavigatorPanel(Model model) {
+		this.model = model;
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 		
 		add(Box.createHorizontalGlue());
 		
-		JButton previousButton = new JButton("<");
-		previousButton.addActionListener(new CardNavigatorListener(cardPanel));
+		JButton previousButton = new JButton(new PreviousCardAction(model));
+		previousButton.setText("<");
 		previousButton.setName("previousButton");
 		add(previousButton);
 		
@@ -38,15 +37,15 @@ public class CardNavigatorPanel extends JPanel {
 		
 		add(Box.createRigidArea(new Dimension(16, 0)));
 		
-		JButton nextButton = new JButton(">");
-		nextButton.addActionListener(new CardNavigatorListener(cardPanel));
+		JButton nextButton = new JButton(new NextCardAction(model));
+		nextButton.setText(">");
 		nextButton.setName("nextButton");
 		add(nextButton);
 		
 		add(Box.createRigidArea(new Dimension(8, 0)));
 		
-		JButton removeButton = new JButton("X");
-		removeButton.addActionListener(new CardNavigatorListener(cardPanel));
+		JButton removeButton = new JButton(new RemoveCardAction(model));
+		removeButton.setText("X");
 		removeButton.setName("removeButton");
 		add(removeButton);
 		
@@ -59,14 +58,5 @@ public class CardNavigatorPanel extends JPanel {
 		} else {
 			cardIndexLabel.setText(0 + " / " + 0);
 		}
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		if (cardPanel != null) {
-			updateLabel(cardPanel.currentCardIndex, cardPanel.cardContainer.getNumCards());
-		}
-		
-		super.paintComponent(g);
 	}
 }

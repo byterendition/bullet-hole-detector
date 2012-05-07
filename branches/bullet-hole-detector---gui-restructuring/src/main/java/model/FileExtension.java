@@ -1,5 +1,5 @@
 package model;
 
 public enum FileExtension {
-	TIFF, TIF, JPEG, JPG, PNG, GIF, BMP;
+	TIFF, TIF, JPEG, JPG, PNG, GIF, BMP, CRD;
 }
