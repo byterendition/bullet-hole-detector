@@ -19,10 +19,8 @@ import model.Model;
 @SuppressWarnings("serial")
 public class CardNavigatorPanel extends JPanel {
 	public JLabel	cardIndexLabel;
-	private Model	model;
 	
 	public CardNavigatorPanel(Model model, JFrame parent) {
-		this.model = model;
 		model.addObserver(new ModelListenerCardImagePanel());
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

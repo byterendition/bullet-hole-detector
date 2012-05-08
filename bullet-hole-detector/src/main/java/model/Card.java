@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import controller.FileUtil;
 
 public class Card extends Observable implements Serializable {
+	private static final long	serialVersionUID	= -7353117644362508620L;
+	
 	@SuppressWarnings("unused")
-	private static final Logger	log	= LoggerFactory.getLogger(Card.class);
+	private static final Logger	log					= LoggerFactory.getLogger(Card.class);
 	
 	private final File			imageFile;
 	private String				name;
