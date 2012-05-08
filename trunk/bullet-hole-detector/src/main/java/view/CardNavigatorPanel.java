@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Dimension;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,10 +18,11 @@ import model.Model;
 @SuppressWarnings("serial")
 public class CardNavigatorPanel extends JPanel {
 	public JLabel	cardIndexLabel;
-	Model			model;
+	private Model	model;
 	
 	public CardNavigatorPanel(Model model) {
 		this.model = model;
+		model.addObserver(new ModelListenerCardImagePanel());
 		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
@@ -52,7 +55,19 @@ public class CardNavigatorPanel extends JPanel {
 		add(Box.createHorizontalGlue());
 	}
 	
-	public void updateLabel(int currentIndex, int total) {
+	public class ModelListenerCardImagePanel implements Observer {
+		
+		@Override
+		public void update(Observable o, Object arg) {
+			if (o instanceof Model) {
+				Model model = (Model) o;
+				
+				updateLabel(model.getCurrentCardIndex(), model.cardContainer.getNumCards());
+			}
+		}
+	}
+	
+	private void updateLabel(int currentIndex, int total) {
 		if (total > 0) {
 			cardIndexLabel.setText((currentIndex + 1) + " / " + total);
 		} else {

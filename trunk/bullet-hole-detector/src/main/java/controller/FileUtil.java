@@ -44,7 +44,7 @@ public class FileUtil {
 	
 	public static void saveCard(Card card) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(card.getName() + ".crd");
+			FileOutputStream fileOut = new FileOutputStream(card.getCardFile());
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(card);
 			out.close();

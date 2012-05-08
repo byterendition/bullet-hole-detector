@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class SaveProjectAction extends AbstractAction {
-	private static final Logger	log	= LoggerFactory.getLogger(NewAction.class);
+	private static final Logger	log	= LoggerFactory.getLogger(SaveProjectAction.class);
 	
 	Model						model;
 	

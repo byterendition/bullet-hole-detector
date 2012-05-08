@@ -35,19 +35,14 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow(Model model) {
 		this.model = model;
-		createAndShowGUI();
+		createAndShowGUI(model);
 	}
 	
-	private void createAndShowGUI() {
+	private void createAndShowGUI(Model model) {
 		// Create and set up the window.
 		setTitle("BulletHoleDetector");
 		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				new ExitAction(model).actionPerformed(new ActionEvent(e.getSource(), e.getID(), "Exit"));
-			}
-		});
+		addWindowListener(new MainWindowListener());
 		
 		// Set up the content pane, where the "main GUI" lives.
 		JPanel contentPane = new JPanel();
@@ -115,5 +110,12 @@ public class MainWindow extends JFrame {
 		menuBar.add(navigateMenu);
 		
 		return menuBar;
+	}
+	
+	private class MainWindowListener extends WindowAdapter {
+		@Override
+		public void windowClosing(WindowEvent e) {
+			new ExitAction(model).actionPerformed(new ActionEvent(e.getSource(), e.getID(), "Exit"));
+		}
 	}
 }

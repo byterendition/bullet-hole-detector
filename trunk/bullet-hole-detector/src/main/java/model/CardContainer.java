@@ -19,12 +19,12 @@ public class CardContainer extends Observable {
 	}
 	
 	public void addCard(Card card) {
-		if (cardList.contains(card)) {
-			log.info("Already contains '{}', card not loaded", card.getName());
-		} else {
+		if (!cardList.contains(card)) {
 			cardList.add(card);
 			setChanged();
 			notifyObservers();
+		} else {
+			log.info("Already contains '{}', card not loaded", card.getName());
 		}
 	}
 	

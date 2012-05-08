@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class LoadCardsAction extends AbstractAction {
-	private static final Logger	log	= LoggerFactory.getLogger(NewAction.class);
+	private static final Logger	log	= LoggerFactory.getLogger(LoadCardsAction.class);
 	
 	private Model				model;
 	private JFileChooser		fileChooser;

@@ -1,9 +1,10 @@
 package controller;
 
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.MediaTracker;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
@@ -24,36 +25,58 @@ public class ImageUtil {
 		}
 	}
 	
-	public static BufferedImage scaleImagePreserveAspect(BufferedImage image, int newWidth, int newHeight, Component parent) {
-		BufferedImage scaledImage = null;
-		try {
-			int rawImageWidth = image.getWidth();
-			int rawImageHeight = image.getHeight();
-			
-			// preserve the original ratio
-			float imageRatio = (float) rawImageWidth / (float) rawImageHeight;
-			float panelRatio = (float) newWidth / (float) newHeight;
-			int widthFactor = -1;
-			int heightFactor = -1;
-			if (imageRatio > panelRatio) {
-				widthFactor = newWidth;
-			} else {
-				heightFactor = newHeight;
-			}
-			if (widthFactor == -1 && heightFactor == -1) {
-				scaledImage = image;
-			} else {
-				scaledImage = (BufferedImage) image.getScaledInstance(widthFactor, heightFactor, Image.SCALE_SMOOTH);
-				// load the new image, 'getScaledInstance' loads asynchronously
-				MediaTracker tracker = new MediaTracker(parent);
-				tracker.addImage(scaledImage, 0);
-				tracker.waitForID(0);
-			}
-		} catch (InterruptedException ie) {
-			log.error("load interrupt: {}", ie.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static BufferedImage scaleImagePreserveAspect(BufferedImage image, int boundsWidth, int boundsHeight) {
+		int rawImageWidth = image.getWidth();
+		int rawImageHeight = image.getHeight();
+		
+		// preserve the original ratio
+		float imageRatio = (float) rawImageWidth / (float) rawImageHeight;
+		float panelRatio = (float) boundsWidth / (float) boundsHeight;
+		int newWidth;
+		int newHeight;
+		if (imageRatio > panelRatio) {
+			newWidth = boundsWidth;
+			newHeight = (int) (boundsWidth / imageRatio);
+		} else {
+			newWidth = (int) (boundsHeight * imageRatio);
+			newHeight = boundsHeight;
 		}
-		return scaledImage;
+		
+		if (newWidth == rawImageWidth && newHeight == rawImageHeight) {
+			return image;
+		} else {
+			BufferedImage scaledImage = image;
+			
+			int intermediateWidth = rawImageWidth / 2;
+			int intermediateHeight = rawImageHeight / 2;
+			while (intermediateWidth > newWidth) {
+				BufferedImage newScaledImage = new BufferedImage(intermediateWidth, intermediateHeight, BufferedImage.TYPE_INT_RGB);
+				Graphics2D scaledImageGraphics = newScaledImage.createGraphics();
+				scaledImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				scaledImageGraphics.drawImage(scaledImage, 0, 0, intermediateWidth, intermediateHeight, null);
+				scaledImage = newScaledImage;
+				intermediateWidth /= 2;
+				intermediateHeight /= 2;
+			}
+			BufferedImage newScaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+			Graphics2D scaledImageGraphics = newScaledImage.createGraphics();
+			if (rawImageWidth > newWidth) {
+				scaledImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			} else {
+				scaledImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+			}
+			
+			scaledImageGraphics.drawImage(scaledImage, 0, 0, newWidth, newHeight, null);
+			scaledImage = newScaledImage;
+			
+			return scaledImage;
+		}
+	}
+	
+	public static BufferedImage deepCopy(BufferedImage bi) {
+		ColorModel cm = bi.getColorModel();
+		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		WritableRaster raster = bi.copyData(null);
+		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 }
