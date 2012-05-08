@@ -49,12 +49,13 @@ public class CardImagePanel extends JPanel {
 		if (getWidth() > 0 && getHeight() > 0 && offScreen != null) {
 			offScreen.setColor(getBackground());
 			offScreen.fillRect(0, 0, getWidth(), getHeight());
+			offScreen.setColor(Color.BLACK);
 			if (scaledImage != null) {
 				int xOffset = (getWidth() - scaledImage.getWidth()) / 2;
 				int yOffset = (getHeight() - scaledImage.getHeight()) / 2;
 				offScreen.drawImage(scaledImage, xOffset, yOffset, this);
+				offScreen.drawRect(xOffset, yOffset, scaledImage.getWidth() - 1, scaledImage.getHeight() - 1);
 			} else {
-				offScreen.setColor(Color.BLACK);
 				offScreen.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 				offScreen.drawLine(0, 0, getWidth(), getHeight());
 				offScreen.drawLine(0, getHeight(), getWidth(), 0);
