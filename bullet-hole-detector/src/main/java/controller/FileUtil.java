@@ -37,7 +37,17 @@ public class FileUtil {
 		int extensionIndex = filename.lastIndexOf('.');
 		
 		if (extensionIndex > 0 && extensionIndex < filename.length() - 1) {
-			return filename.substring(0, extensionIndex - 1);
+			return filename.substring(0, extensionIndex);
+		}
+		return "";
+	}
+	
+	public static String getFileRootPath(File file) {
+		String filename = file.getPath();
+		int extensionIndex = filename.lastIndexOf('.');
+		
+		if (extensionIndex > 0 && extensionIndex < filename.length() - 1) {
+			return filename.substring(0, extensionIndex);
 		}
 		return "";
 	}

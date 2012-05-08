@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -27,14 +26,9 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
-	@SuppressWarnings("unused")
 	private static final Logger	log	= LoggerFactory.getLogger(MainWindow.class);
 	
-	private Model				model;
-	private CardPanel			cardPanel;
-	
 	public MainWindow(Model model) {
-		this.model = model;
 		createAndShowGUI(model);
 	}
 	
@@ -50,13 +44,17 @@ public class MainWindow extends JFrame {
 		
 		// Start creating and adding components.
 		// Card panel
-		cardPanel = new CardPanel(model);
+		CardPanel cardPanel = new CardPanel(model, this);
+		
+		// Settings panel
+		SettingsPanel settingsPanel = new SettingsPanel(model, this);
 		
 		// Menu
 		setJMenuBar(buildMenuBar(model));
 		
 		// Adding components to JPanel, which is then added to the contentPane
 		contentPane.add(BorderLayout.CENTER, cardPanel);
+		contentPane.add(BorderLayout.WEST, settingsPanel);
 		add(contentPane);
 		
 		// set a minimum size for the window so the image panel is always visible
@@ -87,7 +85,7 @@ public class MainWindow extends JFrame {
 		menuItemLoadCards.setName("menuItemLoadCards");
 		fileMenu.add(menuItemLoadCards);
 		
-		JMenuItem menuItemExit = new JMenuItem(new ExitAction(model));
+		JMenuItem menuItemExit = new JMenuItem(new ExitAction(model, this));
 		menuItemExit.setName("menuItemExit");
 		fileMenu.add(menuItemExit);
 		
@@ -103,7 +101,7 @@ public class MainWindow extends JFrame {
 		menuItemNextCard.setName("Next card");
 		navigateMenu.add(menuItemNextCard);
 		
-		JMenuItem menuItemRemoveCard = new JMenuItem(new RemoveCardAction(model));
+		JMenuItem menuItemRemoveCard = new JMenuItem(new RemoveCardAction(model, this));
 		menuItemRemoveCard.setName("Remove card");
 		navigateMenu.add(menuItemRemoveCard);
 		
@@ -115,7 +113,8 @@ public class MainWindow extends JFrame {
 	private class MainWindowListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent e) {
-			new ExitAction(model).actionPerformed(new ActionEvent(e.getSource(), e.getID(), "Exit"));
+			log.info("Exit");
+			System.exit(0);
 		}
 	}
 }
