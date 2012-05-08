@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class ExitAction extends AbstractAction {
+	@SuppressWarnings("unused")
 	private static final Logger	log	= LoggerFactory.getLogger(ExitAction.class);
 	
 	Model						model;
