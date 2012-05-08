@@ -7,6 +7,7 @@ import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -20,7 +21,7 @@ public class CardNavigatorPanel extends JPanel {
 	public JLabel	cardIndexLabel;
 	private Model	model;
 	
-	public CardNavigatorPanel(Model model) {
+	public CardNavigatorPanel(Model model, JFrame parent) {
 		this.model = model;
 		model.addObserver(new ModelListenerCardImagePanel());
 		
@@ -47,7 +48,7 @@ public class CardNavigatorPanel extends JPanel {
 		
 		add(Box.createRigidArea(new Dimension(8, 0)));
 		
-		JButton removeButton = new JButton(new RemoveCardAction(model));
+		JButton removeButton = new JButton(new RemoveCardAction(model, parent));
 		removeButton.setText("X");
 		removeButton.setName("removeButton");
 		add(removeButton);

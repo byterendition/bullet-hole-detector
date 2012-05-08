@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import controller.CalcUtil;
+import controller.FileUtil;
 
 public class Model extends Observable implements Serializable {
 	private static final long	serialVersionUID	= 2257801653080085930L;
@@ -14,6 +15,7 @@ public class Model extends Observable implements Serializable {
 	public CardContainer		cardContainer;
 	public Color				bgColor;
 	public int					bgFuzziness;
+	public boolean				autosave			= false;
 	
 	public Model() {
 		cardContainer = new CardContainer();
@@ -29,6 +31,9 @@ public class Model extends Observable implements Serializable {
 	}
 	
 	public void setCurrentCardIndex(int currentCardIndex) {
+		if (autosave) {
+			FileUtil.saveCard(getCurrentCard());
+		}
 		if (currentCardIndex >= 0 && currentCardIndex < cardContainer.getNumCards()) {
 			if (currentCardIndex != this.currentCardIndex) {
 				this.currentCardIndex = currentCardIndex;
@@ -41,12 +46,18 @@ public class Model extends Observable implements Serializable {
 	}
 	
 	public void increaseCurrentCardIndex() {
+		if (autosave) {
+			FileUtil.saveCard(getCurrentCard());
+		}
 		currentCardIndex = CalcUtil.modulo(currentCardIndex + 1, cardContainer.getNumCards());
 		setChanged();
 		notifyObservers(true);
 	}
 	
 	public void decreaseCurrentCardIndex() {
+		if (autosave) {
+			FileUtil.saveCard(getCurrentCard());
+		}
 		currentCardIndex = CalcUtil.modulo(currentCardIndex - 1, cardContainer.getNumCards());
 		setChanged();
 		notifyObservers(true);

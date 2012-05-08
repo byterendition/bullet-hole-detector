@@ -7,8 +7,6 @@ import java.util.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import controller.FileUtil;
-
 public class CardContainer extends Observable {
 	private static final Logger	log	= LoggerFactory.getLogger(CardContainer.class);
 	
@@ -30,8 +28,6 @@ public class CardContainer extends Observable {
 	
 	public void removeCard(int cardIndex) {
 		Card card = getCard(cardIndex);
-		FileUtil.saveCard(card);
-		
 		cardList.remove(card);
 		setChanged();
 		notifyObservers();
@@ -48,7 +44,11 @@ public class CardContainer extends Observable {
 	}
 	
 	public Card getCard(int cardIndex) {
-		return cardList.get(cardIndex);
+		if (cardIndex >= 0 && cardIndex < cardList.size()) {
+			return cardList.get(cardIndex);
+		} else {
+			return null;
+		}
 	}
 	
 	public int getNumCards() {

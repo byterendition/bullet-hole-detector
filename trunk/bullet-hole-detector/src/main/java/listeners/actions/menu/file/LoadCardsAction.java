@@ -10,11 +10,14 @@ import javax.swing.JFileChooser;
 
 import model.Card;
 import model.CardFileFilter;
+import model.FileExtension;
 import model.ImageFileFilter;
 import model.Model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import controller.FileUtil;
 
 @SuppressWarnings("serial")
 public class LoadCardsAction extends AbstractAction {
@@ -52,8 +55,27 @@ public class LoadCardsAction extends AbstractAction {
 	
 	private void loadCards(File[] fileArr) {
 		for (File file : fileArr) {
-			Card card = new Card(file);
-			model.cardContainer.addCard(card);
+			Card card = null;
+			FileExtension fileExtension = FileUtil.getFileExtension(file);
+			if (fileExtension != null) {
+				switch (fileExtension) {
+					case TIFF:
+					case TIF:
+					case JPEG:
+					case JPG:
+					case PNG:
+					case GIF:
+					case BMP:
+						card = new Card(file);
+						break;
+					case CRD:
+						card = FileUtil.loadCard(file);
+				}
+				
+				if (card != null) {
+					model.cardContainer.addCard(card);
+				}
+			}
 		}
 	}
 }

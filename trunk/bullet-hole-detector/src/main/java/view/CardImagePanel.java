@@ -26,6 +26,7 @@ import controller.ImageUtil;
 
 @SuppressWarnings("serial")
 public class CardImagePanel extends JPanel {
+	@SuppressWarnings("unused")
 	private static final Logger	log	= LoggerFactory.getLogger(CardImagePanel.class);
 	
 	private BufferedImage		rawImage;
@@ -35,10 +36,7 @@ public class CardImagePanel extends JPanel {
 	public BufferedImage		offScreenImage;
 	public Graphics2D			offScreen;
 	
-	private Model				model;
-	
 	public CardImagePanel(Model model) {
-		this.model = model;
 		model.addObserver(new ModelListenerCardImagePanel());
 		
 		buildImage();
@@ -48,15 +46,13 @@ public class CardImagePanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		log.info("{}, {}", rawImage, scaledImage);
-		
 		if (getWidth() > 0 && getHeight() > 0 && offScreen != null) {
-			log.info("{}, {}", rawImage, scaledImage);
-			
 			offScreen.setColor(getBackground());
 			offScreen.fillRect(0, 0, getWidth(), getHeight());
 			if (scaledImage != null) {
-				offScreen.drawImage(scaledImage, 0, 0, this);
+				int xOffset = (getWidth() - scaledImage.getWidth()) / 2;
+				int yOffset = (getHeight() - scaledImage.getHeight()) / 2;
+				offScreen.drawImage(scaledImage, xOffset, yOffset, this);
 			} else {
 				offScreen.setColor(Color.BLACK);
 				offScreen.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
@@ -95,8 +91,11 @@ public class CardImagePanel extends JPanel {
 		private boolean	leftButton;
 		private boolean	middleButton;
 		private boolean	rightButton;
+		
+		@SuppressWarnings("unused")
 		private boolean	mouseDragged;
 		
+		@SuppressWarnings("unused")
 		public int		scrollLevel		= 0;
 		
 		@Override
@@ -191,21 +190,20 @@ public class CardImagePanel extends JPanel {
 		public void update(Observable o, Object arg) {
 			if (o instanceof Model) {
 				Model model = (Model) o;
-				
-				if (model.getCurrentCardIndex() >= 0 && model.getCurrentCard() != currentCard) {
-					currentCard = model.getCurrentCard();
-					try {
-						rawImage = ImageUtil.loadImage(model.getCurrentCard().getImageFile());
-						log.info("blaaaaaaa4, {}, {}", rawImage != null, rawImage);
-						buildImage();
-						repaint();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				if (model.getCurrentCard() != currentCard) {
+					if (model.getCurrentCardIndex() >= 0) {
+						currentCard = model.getCurrentCard();
+						try {
+							rawImage = ImageUtil.loadImage(model.getCurrentCard().getImageFile());
+							buildImage();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						rawImage = null;
+						scaledImage = null;
 					}
-				} else {
-					rawImage = null;
-					scaledImage = null;
+					repaint();
 				}
 			}
 		}

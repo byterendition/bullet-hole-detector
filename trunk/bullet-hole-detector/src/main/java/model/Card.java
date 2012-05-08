@@ -26,7 +26,7 @@ public class Card extends Observable implements Serializable {
 	}
 	
 	public File getCardFile() {
-		return new File(imageFile.getPath() + FileUtil.getFileRootName(imageFile) + ".crd");
+		return new File(FileUtil.getFileRootPath(imageFile) + ".crd");
 	}
 	
 	public String getName() {
