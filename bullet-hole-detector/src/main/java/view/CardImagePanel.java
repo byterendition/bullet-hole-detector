@@ -9,25 +9,37 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
+import model.Card;
 import model.Model;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import controller.ImageUtil;
 
 @SuppressWarnings("serial")
 public class CardImagePanel extends JPanel {
-	private BufferedImage	rawImage;
-	private BufferedImage	scaledImage;
+	private static final Logger	log	= LoggerFactory.getLogger(CardImagePanel.class);
 	
-	public BufferedImage	offScreenImage;
-	public Graphics2D		offScreen;
+	private BufferedImage		rawImage;
+	private Card				currentCard;
+	private BufferedImage		scaledImage;
 	
-	private Model			model;
+	public BufferedImage		offScreenImage;
+	public Graphics2D			offScreen;
+	
+	private Model				model;
 	
 	public CardImagePanel(Model model) {
 		this.model = model;
+		model.addObserver(new ModelListenerCardImagePanel());
 		
 		buildImage();
 		
@@ -36,7 +48,11 @@ public class CardImagePanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		log.info("{}, {}", rawImage, scaledImage);
+		
 		if (getWidth() > 0 && getHeight() > 0 && offScreen != null) {
+			log.info("{}, {}", rawImage, scaledImage);
+			
 			offScreen.setColor(getBackground());
 			offScreen.fillRect(0, 0, getWidth(), getHeight());
 			if (scaledImage != null) {
@@ -65,13 +81,10 @@ public class CardImagePanel extends JPanel {
 	private void buildOffScreen() {
 		offScreenImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		offScreen = offScreenImage.createGraphics();
-		// offScreen.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		// offScreen.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		// offScreen.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 	
 	private void buildScaledImage() {
-		ImageUtil.scaleImagePreserveAspect(rawImage, getWidth(), getHeight(), this);
+		scaledImage = ImageUtil.scaleImagePreserveAspect(rawImage, getWidth(), getHeight());
 	}
 	
 	private class CardImagePanelListener extends MouseInputAdapter implements ComponentListener {
@@ -171,5 +184,30 @@ public class CardImagePanel extends JPanel {
 		
 		@Override
 		public void componentShown(ComponentEvent arg0) {}
+	}
+	
+	public class ModelListenerCardImagePanel implements Observer {
+		@Override
+		public void update(Observable o, Object arg) {
+			if (o instanceof Model) {
+				Model model = (Model) o;
+				
+				if (model.getCurrentCardIndex() >= 0 && model.getCurrentCard() != currentCard) {
+					currentCard = model.getCurrentCard();
+					try {
+						rawImage = ImageUtil.loadImage(model.getCurrentCard().getImageFile());
+						log.info("blaaaaaaa4, {}, {}", rawImage != null, rawImage);
+						buildImage();
+						repaint();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					rawImage = null;
+					scaledImage = null;
+				}
+			}
+		}
 	}
 }

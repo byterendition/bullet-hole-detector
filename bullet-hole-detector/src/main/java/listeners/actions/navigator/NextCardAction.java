@@ -25,45 +25,12 @@ public class NextCardAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		log.info("Next card");
+		int numCards = model.cardContainer.getNumCards();
+		
+		if (numCards > 1) {
+			model.increaseCurrentCardIndex();
+		}
+		
+		log.debug("Next card");
 	}
-	
-	// if (e.getSource() instanceof JButton) {
-	// JButton button = (JButton) e.getSource();
-	// int numCards = cardPanel.cardContainer.getNumCards();
-	//
-	// if (button.getName() == "previousButton") {
-	// if (numCards > 1) {
-	// cardPanel.currentCardIndex--;
-	// if (cardPanel.currentCardIndex < 0) {
-	// cardPanel.currentCardIndex = numCards - 1;
-	// }
-	// }
-	// cardPanel.repaint();
-	// log.debug("previous card");
-	// }
-	//
-	// if (button.getName() == "nextButton") {
-	// if (numCards > 1) {
-	// cardPanel.currentCardIndex++;
-	// if (cardPanel.currentCardIndex >= numCards) {
-	// cardPanel.currentCardIndex = 0;
-	// }
-	// }
-	// cardPanel.repaint();
-	// log.debug("next card");
-	// }
-	//
-	// if (button.getName() == "removeButton") {
-	// if (numCards > 0) {
-	// int response = JOptionPane.showOptionDialog(cardPanel, "Are you sure you want to remove this card?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new String[] { "Yes", "No" }, "No");
-	//
-	// if (response == 0) {
-	// cardPanel.cardContainer.removeCard(cardPanel.getCurrentCard());
-	// cardPanel.repaint();
-	// log.debug("remove card");
-	// }
-	// }
-	// }
-	// }
 }

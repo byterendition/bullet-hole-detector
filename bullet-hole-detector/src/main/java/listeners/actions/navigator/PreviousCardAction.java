@@ -25,6 +25,12 @@ public class PreviousCardAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		log.info("Previous card");
+		int numCards = model.cardContainer.getNumCards();
+		
+		if (numCards > 1) {
+			model.decreaseCurrentCardIndex();
+		}
+		
+		log.debug("Previous card");
 	}
 }

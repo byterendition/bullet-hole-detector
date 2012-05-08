@@ -1,9 +1,11 @@
 package listeners.actions.navigator;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 import model.Model;
 
@@ -25,6 +27,20 @@ public class RemoveCardAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		log.info("Remove card");
+		Object o = e.getSource();
+		if (o instanceof Component) {
+			Component parent = (Component) o;
+			
+			int numCards = model.cardContainer.getNumCards();
+			if (numCards > 0) {
+				int response = JOptionPane.showOptionDialog(parent, "Are you sure you want to remove this card from the project? Any unsaved changes to it will be lost!", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE,
+						null, new String[] { "Yes", "No" }, "No");
+				
+				if (response == 0) {
+					model.cardContainer.removeCard(model.getCurrentCardIndex());
+					log.debug("Remove card");
+				}
+			}
+		}
 	}
 }
