@@ -1,0 +1,1 @@
+Detects bullet holes in standard international airpistol cards using a combination of automated and supervised pattern recognition algorithms. The results can then be saved to a database.
